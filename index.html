@@ -777,13 +777,19 @@
             font-size: 14px;
             color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s ease, transform 0.1s ease;
         }
 
         .toolbar-btn:hover {
             background: var(--hover-overlay);
             color: var(--text-primary);
             border-color: var(--border-hover);
+        }
+
+        .toolbar-btn.active {
+            background: var(--active-overlay);
+            color: var(--text-primary);
+            border-color: var(--text-primary);
         }
 
         .preview-content {
@@ -2418,15 +2424,25 @@
 
         // 显示/隐藏版本面板
         if (versionsBtn && versionsPanel) {
-            versionsBtn.addEventListener('click', () => {
-                const isVisible = versionsPanel.classList.contains('show');
+            versionsBtn.addEventListener('click', (e) => {
+                // 添加点击反馈
+                e.currentTarget.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    e.currentTarget.style.transform = '';
+                }, 150);
+                
+                const isVisible = versionsPanel.classList.contains('show') || versionsPanel.style.display === 'block';
                 if (isVisible) {
+                    // 隐藏面板
                     versionsPanel.classList.remove('show');
+                    versionsBtn.classList.remove('active');
                     setTimeout(() => {
                         versionsPanel.style.display = 'none';
                     }, 300);
                 } else {
+                    // 显示面板
                     versionsPanel.style.display = 'block';
+                    versionsBtn.classList.add('active');
                     setTimeout(() => {
                         versionsPanel.classList.add('show');
                     }, 10);
@@ -2438,6 +2454,9 @@
         if (versionsCloseBtn && versionsPanel) {
             versionsCloseBtn.addEventListener('click', () => {
                 versionsPanel.classList.remove('show');
+                if (versionsBtn) {
+                    versionsBtn.classList.remove('active');
+                }
                 setTimeout(() => {
                     versionsPanel.style.display = 'none';
                 }, 300);
