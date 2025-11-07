@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BüddyUp 原型展示 - 个人陈述生成工具">
+    <meta name="author" content="BüddyUp">
+    <title>BüddyUp - 原型展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --text-primary: #37352F;
+            --text-secondary: #787774;
+            --text-tertiary: #9B9A97;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F7F6F3;
+            --border-default: #E8E7E5;
+            --border-hover: #DDDBD8;
+            --hover-overlay: rgba(0, 0, 0, 0.03);
+            --active-overlay: rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: var(--text-tertiary);
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .page-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .page-card:hover {
+            background: var(--bg-secondary);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .page-card-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-default);
+            margin-top: 40px;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: var(--text-tertiary);
+        }
+
+        @media (max-width: 767px) {
+            .logo {
+                font-size: 36px;
+            }
+
+            .pages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="logo">BüddyUp</h1>
+            <p class="subtitle">个人陈述生成工具</p>
+            <p class="description">原型展示页面</p>
+        </header>
+
+        <div class="pages-grid">
+            <a href="我的故事页面.html" class="page-card">
+                <h2 class="page-card-title">我的故事</h2>
+                <p class="page-card-description">填写个人背景、学术成就和优势特质</p>
+            </a>
+
+            <a href="我的PS页面.html" class="page-card">
+                <h2 class="page-card-title">我的PS</h2>
+                <p class="page-card-description">填写目标信息，选择目标国家、院校和专业</p>
+            </a>
+
+            <a href="使用说明页面.html" class="page-card">
+                <h2 class="page-card-title">使用说明</h2>
+                <p class="page-card-description">快速了解如何使用 BüddyUp 生成个人陈述</p>
+            </a>
+        </div>
+
+        <footer class="footer">
+            <p class="footer-text">BüddyUp 原型展示</p>
+        </footer>
+    </div>
+</body>
+</html>
+

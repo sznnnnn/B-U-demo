@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BüddyUp 使用说明 - 快速了解如何使用 BüddyUp 生成个人陈述">
+    <meta name="author" content="BüddyUp">
+    <title>使用说明 - BüddyUp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* 颜色系统 */
+            --text-primary: #37352F;
+            --text-secondary: #787774;
+            --text-tertiary: #9B9A97;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F7F6F3;
+            --border-default: #E8E7E5;
+            --border-hover: #DDDBD8;
+            --hover-overlay: rgba(0, 0, 0, 0.03);
+            --active-overlay: rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* 主容器 */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 左侧边栏 */
+        .sidebar {
+            width: 240px;
+            background: var(--bg-primary);
+            padding: 16px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            border-right: 1px solid var(--border-default);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .nav-item {
+            height: 28px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item:hover {
+            background: var(--hover-overlay);
+        }
+
+        .nav-item.active {
+            background: var(--active-overlay);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-left: 240px;
+            flex: 1;
+            padding: 40px 96px;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Bento Grid 布局 */
+        .content-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        /* 卡片 */
+        .content-card {
+            background: var(--bg-primary);
+            padding: 24px 0;
+            transition: background-color 0.2s ease;
+        }
+
+        .content-card:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* 快速开始卡片（左侧列） */
+        .quick-start-card {
+            grid-column: 1;
+        }
+
+        /* 功能特点卡片（右侧列） */
+        .features-card {
+            grid-column: 2;
+        }
+
+        /* 常见问题卡片（占满整行） */
+        .faq-card {
+            grid-column: 1 / -1;
+        }
+
+        /* 卡片标题 */
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 6px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        /* 卡片内容 */
+        .card-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        /* 步骤列表 */
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-item {
+            margin-bottom: 20px;
+        }
+
+        .step-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-right: 6px;
+        }
+
+        .step-title {
+            font-weight: 400;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            line-height: 1.6;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            margin-left: 20px;
+            line-height: 1.6;
+        }
+
+        .step-link {
+            color: var(--text-primary);
+            text-decoration: underline;
+            margin-left: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .step-link:hover {
+            color: var(--text-secondary);
+        }
+
+        /* 功能特点列表 */
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-item {
+            margin-bottom: 20px;
+        }
+
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .feature-title::before {
+            content: "·";
+            margin-right: 6px;
+            color: var(--text-secondary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* FAQ 列表 */
+        .faq-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .faq-item {
+            padding: 12px 0;
+        }
+
+        .faq-item:not(:last-child) {
+            border-bottom: 1px solid var(--border-default);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+        }
+
+        .faq-question {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .faq-answer {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* 页脚 */
+        .footer {
+            padding: 24px 0;
+            border-top: 1px solid var(--border-default);
+            display: flex;
+            gap: 16px;
+            margin-top: auto;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1199px) {
+            .main-content {
+                padding: 40px 48px;
+            }
+
+            .footer {
+                padding: 16px 0;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .card-title {
+                font-size: 16px;
+            }
+
+            .content-card {
+                padding: 20px 0;
+            }
+
+            .content-cards-grid {
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 24px;
+            }
+
+            .footer {
+                padding: 16px 0;
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .card-title {
+                font-size: 16px;
+            }
+
+            .content-card {
+                padding: 16px 0;
+            }
+
+            .content-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .quick-start-card,
+            .features-card,
+            .faq-card {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 左侧边栏 -->
+        <aside class="sidebar">
+            <div class="logo">BüddyUp</div>
+            <nav class="nav-menu">
+                <div class="nav-item">我的故事</div>
+                <div class="nav-item">我的PS</div>
+                <div class="nav-item active">使用说明</div>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 页面标题 -->
+            <header class="page-header">
+                <h1 class="page-title">使用说明</h1>
+                <p class="page-subtitle">快速了解如何使用 BüddyUp</p>
+            </header>
+
+            <!-- Bento Grid 卡片组 -->
+            <div class="content-cards-grid">
+                <!-- 快速开始卡片 -->
+                <div class="content-card quick-start-card">
+                    <div class="card-header">
+                        <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <h2 class="card-title">快速开始</h2>
+                    </div>
+                    <div class="card-content">
+                        <ol class="step-list">
+                            <li class="step-item">
+                                <div class="step-title">
+                                    <span class="step-number">1.</span>
+                                    填写<a href="我的故事页面.html" target="_blank" class="step-link">基础信息</a>
+                                </div>
+                                <div class="step-description">描述个人背景、学术成就和优势特质</div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-title">
+                                    <span class="step-number">2.</span>
+                                    在"我的PS"页面填写目标信息
+                                </div>
+                                <div class="step-description">选择目标国家、院校和专业</div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-title">
+                                    <span class="step-number">3.</span>
+                                    添加项目经历
+                                </div>
+                                <div class="step-description">描述项目经验、角色和成果</div>
+                            </li>
+                            <li class="step-item">
+                                <div class="step-title">
+                                    <span class="step-number">4.</span>
+                                    生成 PS 草稿
+                                </div>
+                                <div class="step-description">点击"生成 PS 草稿"按钮</div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- 功能特点卡片 -->
+                <div class="content-card features-card">
+                    <div class="card-header">
+                        <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                        <h2 class="card-title">功能特点</h2>
+                    </div>
+                    <div class="card-content">
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div class="feature-title">AI 智能生成</div>
+                                <div class="feature-description">基于故事自动生成 PS</div>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-title">多版本管理</div>
+                                <div class="feature-description">保存多个版本，随时对比</div>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-title">一键导出</div>
+                                <div class="feature-description">支持 Word、PDF 等格式</div>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-title">实时预览</div>
+                                <div class="feature-description">左侧编辑，右侧预览</div>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-title">智能优化</div>
+                                <div class="feature-description">根据目标院校调整风格</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 常见问题卡片 -->
+                <div class="content-card faq-card">
+                    <div class="card-header">
+                        <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h2 class="card-title">常见问题</h2>
+                    </div>
+                    <div class="card-content">
+                        <ul class="faq-list">
+                            <li class="faq-item">
+                                <div class="faq-question">Q: 如何让 PS 更符合我的风格？</div>
+                                <div class="faq-answer">A: 在"我的故事"页面填写越详细越好</div>
+                            </li>
+                            <li class="faq-item">
+                                <div class="faq-question">Q: 可以生成多个版本吗？</div>
+                                <div class="faq-answer">A: 可以，每次生成都会保存为新版本</div>
+                            </li>
+                            <li class="faq-item">
+                                <div class="faq-question">Q: PS 可以直接使用吗？</div>
+                                <div class="faq-answer">A: 建议根据实际情况修改优化</div>
+                            </li>
+                            <li class="faq-item">
+                                <div class="faq-question">Q: 支持哪些国家？</div>
+                                <div class="faq-answer">A: 目前仅支持英国</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- 页脚 -->
+            <footer class="footer">
+                <a href="#" class="footer-link">反馈入口</a>
+                <span>|</span>
+                <a href="#" class="footer-link">小红书</a>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
+
