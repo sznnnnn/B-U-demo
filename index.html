@@ -793,6 +793,155 @@
             white-space: pre-wrap;
         }
 
+        /* 版本管理面板 */
+        .versions-panel {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .versions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-default);
+        }
+
+        .versions-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .versions-close-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .versions-close-btn:hover {
+            background: var(--hover-overlay);
+            color: var(--text-primary);
+        }
+
+        .versions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .version-item {
+            padding: 12px;
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .version-item:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-secondary);
+        }
+
+        .version-item.active {
+            border-color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .version-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .version-item-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .version-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .version-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .version-badge.primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .version-item-actions {
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .version-item:hover .version-item-actions {
+            opacity: 1;
+        }
+
+        .version-action-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .version-action-btn:hover {
+            background: var(--hover-overlay);
+            color: var(--text-primary);
+        }
+
+        .version-item-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .version-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .version-word-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
         /* 收起/展开按钮 */
         .toggle-form-btn {
             position: fixed;
@@ -1887,10 +2036,72 @@
                         <div class="preview-toolbar">
                             <button class="toolbar-btn">复制</button>
                             <button class="toolbar-btn">导出</button>
-                            <button class="toolbar-btn">版本</button>
+                            <button class="toolbar-btn" id="versions-btn">版本</button>
+                            <button class="toolbar-btn" id="save-version-btn">保存为新版本</button>
                         </div>
 
-                        <div class="preview-content">
+                        <!-- 版本列表 -->
+                        <div class="versions-panel" id="versions-panel" style="display: none;">
+                            <div class="versions-header">
+                                <h3 class="versions-title">版本管理</h3>
+                                <button class="versions-close-btn" id="versions-close-btn">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="versions-list" id="versions-list">
+                                <div class="version-item active" data-version="1">
+                                    <div class="version-item-header">
+                                        <div class="version-item-left">
+                                            <span class="version-name">版本 1</span>
+                                            <span class="version-badge primary">主文书</span>
+                                        </div>
+                                        <div class="version-item-actions">
+                                            <button class="version-action-btn" title="设为主文书">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="version-action-btn" title="删除">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="version-item-meta">
+                                        <span class="version-date">2025-11-07 20:30</span>
+                                        <span class="version-word-count">约 500 字</span>
+                                    </div>
+                                </div>
+                                <div class="version-item" data-version="2">
+                                    <div class="version-item-header">
+                                        <div class="version-item-left">
+                                            <span class="version-name">版本 2</span>
+                                        </div>
+                                        <div class="version-item-actions">
+                                            <button class="version-action-btn" title="设为主文书">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="version-action-btn" title="删除">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="version-item-meta">
+                                        <span class="version-date">2025-11-07 19:15</span>
+                                        <span class="version-word-count">约 480 字</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preview-content" id="preview-content">
                             填写你的信息，然后点击"生成 PS 草稿"按钮开始
                         </div>
                     </div>
@@ -2090,6 +2301,156 @@
                 psLayout.classList.toggle('collapsed');
             });
         }
+
+        // 版本管理功能
+        const versionsBtn = document.getElementById('versions-btn');
+        const versionsPanel = document.getElementById('versions-panel');
+        const versionsCloseBtn = document.getElementById('versions-close-btn');
+        const saveVersionBtn = document.getElementById('save-version-btn');
+        const versionsList = document.getElementById('versions-list');
+        const previewContent = document.getElementById('preview-content');
+
+        // 版本数据（示例）
+        let versions = [
+            { id: 1, name: '版本 1', isPrimary: true, date: '2025-11-07 20:30', wordCount: 500, content: '这是版本 1 的内容...' },
+            { id: 2, name: '版本 2', isPrimary: false, date: '2025-11-07 19:15', wordCount: 480, content: '这是版本 2 的内容...' }
+        ];
+        let currentVersionId = 1;
+
+        // 显示/隐藏版本面板
+        if (versionsBtn && versionsPanel) {
+            versionsBtn.addEventListener('click', () => {
+                const isVisible = versionsPanel.style.display !== 'none';
+                versionsPanel.style.display = isVisible ? 'none' : 'block';
+            });
+        }
+
+        // 关闭版本面板
+        if (versionsCloseBtn && versionsPanel) {
+            versionsCloseBtn.addEventListener('click', () => {
+                versionsPanel.style.display = 'none';
+            });
+        }
+
+        // 保存为新版本
+        if (saveVersionBtn) {
+            saveVersionBtn.addEventListener('click', () => {
+                const newVersion = {
+                    id: versions.length + 1,
+                    name: `版本 ${versions.length + 1}`,
+                    isPrimary: false,
+                    date: new Date().toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+                    wordCount: previewContent.textContent.length,
+                    content: previewContent.textContent
+                };
+                versions.push(newVersion);
+                renderVersions();
+                alert('已保存为新版本！');
+            });
+        }
+
+        // 渲染版本列表
+        function renderVersions() {
+            if (!versionsList) return;
+            
+            versionsList.innerHTML = versions.map(version => {
+                const isActive = version.id === currentVersionId;
+                const badge = version.isPrimary ? '<span class="version-badge primary">主文书</span>' : '';
+                return `
+                    <div class="version-item ${isActive ? 'active' : ''}" data-version="${version.id}">
+                        <div class="version-item-header">
+                            <div class="version-item-left">
+                                <span class="version-name">${version.name}</span>
+                                ${badge}
+                            </div>
+                            <div class="version-item-actions">
+                                <button class="version-action-btn set-primary-btn" title="设为主文书" data-version="${version.id}">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                    </svg>
+                                </button>
+                                <button class="version-action-btn delete-version-btn" title="删除" data-version="${version.id}">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="version-item-meta">
+                            <span class="version-date">${version.date}</span>
+                            <span class="version-word-count">约 ${version.wordCount} 字</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // 绑定版本切换事件
+            const versionItems = versionsList.querySelectorAll('.version-item');
+            versionItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (e.target.closest('.version-action-btn')) return;
+                    const versionId = parseInt(item.getAttribute('data-version'));
+                    switchVersion(versionId);
+                });
+            });
+
+            // 绑定设为主文书事件
+            const setPrimaryBtns = versionsList.querySelectorAll('.set-primary-btn');
+            setPrimaryBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const versionId = parseInt(btn.getAttribute('data-version'));
+                    setPrimaryVersion(versionId);
+                });
+            });
+
+            // 绑定删除版本事件
+            const deleteBtns = versionsList.querySelectorAll('.delete-version-btn');
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const versionId = parseInt(btn.getAttribute('data-version'));
+                    if (confirm('确定要删除这个版本吗？')) {
+                        deleteVersion(versionId);
+                    }
+                });
+            });
+        }
+
+        // 切换版本
+        function switchVersion(versionId) {
+            const version = versions.find(v => v.id === versionId);
+            if (!version) return;
+            
+            currentVersionId = versionId;
+            previewContent.textContent = version.content;
+            renderVersions();
+        }
+
+        // 设为主文书
+        function setPrimaryVersion(versionId) {
+            versions.forEach(v => {
+                v.isPrimary = v.id === versionId;
+            });
+            renderVersions();
+        }
+
+        // 删除版本
+        function deleteVersion(versionId) {
+            if (versions.length <= 1) {
+                alert('至少需要保留一个版本！');
+                return;
+            }
+            versions = versions.filter(v => v.id !== versionId);
+            if (currentVersionId === versionId) {
+                currentVersionId = versions[0].id;
+                switchVersion(currentVersionId);
+            }
+            renderVersions();
+        }
+
+        // 初始化版本列表
+        renderVersions();
     </script>
 </body>
 </html>
