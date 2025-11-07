@@ -791,6 +791,43 @@
             color: var(--text-primary);
             line-height: 1.8;
             white-space: pre-wrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .preview-content.fading {
+            opacity: 0.3;
+        }
+
+        /* 成功提示 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 按钮点击反馈 */
+        .toolbar-btn:active {
+            transform: scale(0.95);
+        }
+
+        .version-action-btn:active {
+            transform: scale(0.9);
         }
 
         /* 版本管理面板 */
@@ -802,6 +839,16 @@
             margin-bottom: 24px;
             max-height: 400px;
             overflow-y: auto;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .versions-panel.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
         .versions-header {
@@ -852,16 +899,40 @@
             background: var(--bg-primary);
             transition: all 0.2s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .version-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--text-primary);
+            transform: scaleY(0);
+            transition: transform 0.2s ease;
         }
 
         .version-item:hover {
             border-color: var(--border-hover);
             background: var(--bg-secondary);
+            transform: translateX(4px);
         }
 
         .version-item.active {
             border-color: var(--text-primary);
             background: var(--bg-secondary);
+        }
+
+        .version-item.active::before {
+            transform: scaleY(1);
+        }
+
+        .version-item.switching {
+            opacity: 0.5;
+            pointer-events: none;
         }
 
         .version-item-header {
@@ -2041,7 +2112,7 @@
                         </div>
 
                         <!-- 版本列表 -->
-                        <div class="versions-panel" id="versions-panel" style="display: none;">
+                        <div class="versions-panel" id="versions-panel" style="display: none; opacity: 0;">
                             <div class="versions-header">
                                 <h3 class="versions-title">版本管理</h3>
                                 <button class="versions-close-btn" id="versions-close-btn">
@@ -2312,40 +2383,96 @@
 
         // 版本数据（示例）
         let versions = [
-            { id: 1, name: '版本 1', isPrimary: true, date: '2025-11-07 20:30', wordCount: 500, content: '这是版本 1 的内容...' },
-            { id: 2, name: '版本 2', isPrimary: false, date: '2025-11-07 19:15', wordCount: 480, content: '这是版本 2 的内容...' }
+            { id: 1, name: '版本 1', isPrimary: true, date: '2025-11-07 20:30', wordCount: 500, content: '这是版本 1 的内容...\n\n这是第一段内容，展示了个人背景和学术成就。\n\n这是第二段内容，描述了项目经历和研究成果。' },
+            { id: 2, name: '版本 2', isPrimary: false, date: '2025-11-07 19:15', wordCount: 480, content: '这是版本 2 的内容...\n\n这是第一段内容，展示了个人背景和学术成就。\n\n这是第二段内容，描述了项目经历和研究成果。' }
         ];
         let currentVersionId = 1;
+
+        // 显示提示消息
+        function showToast(message) {
+            // 移除已存在的提示
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // 创建新提示
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            // 显示动画
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
 
         // 显示/隐藏版本面板
         if (versionsBtn && versionsPanel) {
             versionsBtn.addEventListener('click', () => {
-                const isVisible = versionsPanel.style.display !== 'none';
-                versionsPanel.style.display = isVisible ? 'none' : 'block';
+                const isVisible = versionsPanel.classList.contains('show');
+                if (isVisible) {
+                    versionsPanel.classList.remove('show');
+                    setTimeout(() => {
+                        versionsPanel.style.display = 'none';
+                    }, 300);
+                } else {
+                    versionsPanel.style.display = 'block';
+                    setTimeout(() => {
+                        versionsPanel.classList.add('show');
+                    }, 10);
+                }
             });
         }
 
         // 关闭版本面板
         if (versionsCloseBtn && versionsPanel) {
             versionsCloseBtn.addEventListener('click', () => {
-                versionsPanel.style.display = 'none';
+                versionsPanel.classList.remove('show');
+                setTimeout(() => {
+                    versionsPanel.style.display = 'none';
+                }, 300);
             });
         }
 
         // 保存为新版本
         if (saveVersionBtn) {
             saveVersionBtn.addEventListener('click', () => {
+                const content = previewContent.textContent.trim();
+                if (!content || content === '填写你的信息，然后点击"生成 PS 草稿"按钮开始') {
+                    showToast('请先生成 PS 草稿');
+                    return;
+                }
+
                 const newVersion = {
                     id: versions.length + 1,
                     name: `版本 ${versions.length + 1}`,
                     isPrimary: false,
                     date: new Date().toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
-                    wordCount: previewContent.textContent.length,
-                    content: previewContent.textContent
+                    wordCount: content.length,
+                    content: content
                 };
                 versions.push(newVersion);
+                currentVersionId = newVersion.id;
                 renderVersions();
-                alert('已保存为新版本！');
+                showToast('已保存为新版本！');
+                
+                // 自动打开版本面板
+                if (versionsPanel) {
+                    versionsPanel.style.display = 'block';
+                    setTimeout(() => {
+                        versionsPanel.classList.add('show');
+                    }, 10);
+                }
             });
         }
 
@@ -2422,31 +2549,78 @@
             const version = versions.find(v => v.id === versionId);
             if (!version) return;
             
-            currentVersionId = versionId;
-            previewContent.textContent = version.content;
-            renderVersions();
+            if (currentVersionId === versionId) return;
+            
+            // 添加切换动画
+            previewContent.classList.add('fading');
+            
+            // 标记正在切换的版本项
+            const currentItem = versionsList.querySelector(`[data-version="${currentVersionId}"]`);
+            const targetItem = versionsList.querySelector(`[data-version="${versionId}"]`);
+            if (currentItem) currentItem.classList.add('switching');
+            if (targetItem) targetItem.classList.add('switching');
+            
+            setTimeout(() => {
+                currentVersionId = versionId;
+                previewContent.textContent = version.content;
+                renderVersions();
+                
+                // 移除淡出效果
+                previewContent.classList.remove('fading');
+                
+                // 滚动到当前版本
+                const activeItem = versionsList.querySelector(`[data-version="${versionId}"]`);
+                if (activeItem) {
+                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 300);
         }
 
         // 设为主文书
         function setPrimaryVersion(versionId) {
+            const version = versions.find(v => v.id === versionId);
+            if (!version) return;
+            
+            if (version.isPrimary) {
+                showToast('该版本已经是主文书');
+                return;
+            }
+            
             versions.forEach(v => {
                 v.isPrimary = v.id === versionId;
             });
             renderVersions();
+            showToast('已设为主文书');
         }
 
         // 删除版本
         function deleteVersion(versionId) {
             if (versions.length <= 1) {
-                alert('至少需要保留一个版本！');
+                showToast('至少需要保留一个版本！');
                 return;
             }
-            versions = versions.filter(v => v.id !== versionId);
-            if (currentVersionId === versionId) {
-                currentVersionId = versions[0].id;
-                switchVersion(currentVersionId);
+            
+            const version = versions.find(v => v.id === versionId);
+            if (version && version.isPrimary) {
+                showToast('无法删除主文书版本，请先设置其他版本为主文书');
+                return;
             }
-            renderVersions();
+            
+            // 添加删除动画
+            const item = versionsList.querySelector(`[data-version="${versionId}"]`);
+            if (item) {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    versions = versions.filter(v => v.id !== versionId);
+                    if (currentVersionId === versionId) {
+                        currentVersionId = versions[0].id;
+                        switchVersion(currentVersionId);
+                    }
+                    renderVersions();
+                    showToast('已删除版本');
+                }, 300);
+            }
         }
 
         // 初始化版本列表
