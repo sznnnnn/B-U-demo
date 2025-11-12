@@ -169,8 +169,150 @@
             font-size: 14px;
             color: var(--text-primary);
             margin-bottom: 8px;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-weight: 500;
+        }
+
+        .help-icon {
+            width: 14px;
+            height: 14px;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .help-icon:hover {
+            color: var(--text-primary);
+        }
+
+        .help-tooltip {
+            position: absolute;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.5;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .help-tooltip.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .help-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid var(--text-primary);
+        }
+
+        .form-field-wrapper {
+            position: relative;
+        }
+
+        .example-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: 12px;
+        }
+
+        .example-toggle-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+
+        .example-toggle-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+
+        .example-toggle.collapsed .example-toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .example-content {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .example-toggle.collapsed + .example-content {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+        }
+
+        .guide-card-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            margin-bottom: 16px;
+            transition: background 0.2s ease;
+        }
+
+        .guide-card-toggle:hover {
+            background: var(--border-default);
+        }
+
+        .guide-card-toggle-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+
+        .guide-card-toggle-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+
+        .guide-card-toggle.collapsed .guide-card-toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .guide-card-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease, margin-bottom 0.3s ease;
+            opacity: 1;
+            margin-bottom: 16px;
+        }
+
+        .guide-card-toggle.collapsed + .guide-card-content {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
         }
 
         .form-input,
@@ -196,6 +338,7 @@
 
         .form-input::placeholder {
             color: var(--text-tertiary);
+            font-size: 13px;
         }
 
         .form-textarea {
@@ -453,6 +596,16 @@
             color: var(--text-primary);
         }
 
+        .clickable-section-title {
+            cursor: pointer;
+            transition: color 0.2s ease;
+            user-select: none;
+        }
+
+        .clickable-section-title:hover {
+            color: var(--text-secondary);
+        }
+
         .btn-primary {
             width: 100%;
             height: 32px;
@@ -564,6 +717,14 @@
         }
 
         .tab-content.active {
+            display: block;
+        }
+
+        .ps-tab-content {
+            display: none;
+        }
+
+        .ps-tab-content.active {
             display: block;
         }
 
@@ -777,7 +938,7 @@
             font-size: 14px;
             color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s ease, transform 0.1s ease;
         }
 
         .toolbar-btn:hover {
@@ -786,11 +947,237 @@
             border-color: var(--border-hover);
         }
 
+        .toolbar-btn.active {
+            background: var(--active-overlay);
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+        }
+
         .preview-content {
             font-size: 14px;
             color: var(--text-primary);
             line-height: 1.8;
             white-space: pre-wrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .preview-content.fading {
+            opacity: 0.3;
+        }
+
+        /* 成功提示 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 按钮点击反馈 */
+        .toolbar-btn:active {
+            transform: scale(0.95);
+        }
+
+        .version-action-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* 版本管理面板 */
+        .versions-panel {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            max-height: 400px;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .versions-panel.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .versions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-default);
+        }
+
+        .versions-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .versions-close-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .versions-close-btn:hover {
+            background: var(--hover-overlay);
+            color: var(--text-primary);
+        }
+
+        .versions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .version-item {
+            padding: 12px;
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .version-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--text-primary);
+            transform: scaleY(0);
+            transition: transform 0.2s ease;
+        }
+
+        .version-item:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-secondary);
+            transform: translateX(4px);
+        }
+
+        .version-item.active {
+            border-color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .version-item.active::before {
+            transform: scaleY(1);
+        }
+
+        .version-item.switching {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .version-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .version-item-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .version-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .version-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .version-badge.primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .version-item-actions {
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .version-item:hover .version-item-actions {
+            opacity: 1;
+        }
+
+        .version-action-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .version-action-btn:hover {
+            background: var(--hover-overlay);
+            color: var(--text-primary);
+        }
+
+        .version-item-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .version-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .version-word-count {
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
         /* 收起/展开按钮 */
@@ -1587,7 +1974,7 @@
                     <!-- 左侧卡片 -->
                     <div class="left-cards">
                         <!-- 个人信息卡片 -->
-                        <div class="info-card">
+                        <div class="info-card" id="profile-card">
                             <div class="card-header-with-btn">
                                 <div class="card-header-title">
                                     <svg class="card-header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1782,102 +2169,324 @@
                     <p class="page-subtitle">越详细, buddy 越懂你~</p>
                 </header>
 
+                <!-- 标签页导航 -->
+                <div class="tabs" style="margin-bottom: 24px;">
+                    <button class="tab active" data-ps-tab="basic">基础信息</button>
+                    <button class="tab" data-ps-tab="academic">学术与实践</button>
+                    <button class="tab" data-ps-tab="motivation">动机与规划</button>
+                    <button class="tab" data-ps-tab="supplementary">补充信息</button>
+                </div>
+
                 <div class="content-layout split" id="ps-layout">
                     <!-- 左侧表单区 -->
                     <div class="form-panel">
-                        <!-- 基础信息 -->
-                        <div class="form-section">
-                            <div class="section-header">
-                                <div class="avatar small">XL</div>
-                                <h2 class="section-title">基础信息</h2>
-                            </div>
+                        <!-- 基础信息标签页 -->
+                        <div class="ps-tab-content active" id="ps-tab-basic">
+                            <div class="form-section">
+                                <div class="section-header">
+                                    <div class="avatar small">XL</div>
+                                    <h2 class="section-title clickable-section-title" id="basic-info-title">基础信息</h2>
+                                </div>
 
-                            <div style="margin-bottom: 16px;">
-                                <label class="form-label">目标国家</label>
-                                <select class="form-select">
-                                    <option>英国</option>
-                                </select>
-                            </div>
+                                <div class="form-field-wrapper" style="margin-bottom: 16px;">
+                                    <label class="form-label">
+                                        目标国家
+                                        <svg class="help-icon" data-help="target-country" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </label>
+                                    <select class="form-select">
+                                        <option>英国</option>
+                                    </select>
+                                    <div class="help-tooltip" data-help-target="target-country">
+                                        选择你计划申请留学的目标国家。这将帮助 AI 生成符合该国教育体系和文化特点的个人陈述。
+                                    </div>
+                                </div>
 
-                            <div style="margin-bottom: 16px;">
-                                <label class="form-label">目标院校</label>
-                                <input type="text" class="form-input" placeholder="e.g. MIT">
-                            </div>
+                                <div class="form-field-wrapper" style="margin-bottom: 16px;">
+                                    <label class="form-label">
+                                        目标院校
+                                        <svg class="help-icon" data-help="target-school" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </label>
+                                    <input type="text" class="form-input" placeholder="例如：MIT、牛津大学、剑桥大学等">
+                                    <div class="help-tooltip" data-help-target="target-school">
+                                        填写你希望申请的目标院校名称。格式：院校全称或常用简称，例如：MIT、牛津大学、剑桥大学等。可以填写多个院校，用逗号分隔。
+                                    </div>
+                                </div>
 
-                            <div>
-                                <label class="form-label">目标专业</label>
-                                <input type="text" class="form-input" placeholder="e.g. 计算机科学与技术">
+                                <div class="form-field-wrapper">
+                                    <label class="form-label">
+                                        目标专业
+                                        <svg class="help-icon" data-help="target-major" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </label>
+                                    <input type="text" class="form-input" placeholder="例如：计算机科学与技术、产品设计、金融学等">
+                                    <div class="help-tooltip" data-help-target="target-major">
+                                        填写你希望申请的专业名称。格式：专业全称，例如：计算机科学与技术、产品设计、金融学等。如果申请多个专业，用逗号分隔。
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 项目经历 -->
-                        <div class="form-section projects-section">
-                            <div class="projects-header">
-                                <h3 class="projects-title">项目经历</h3>
-                                <button class="hidden-projects-toggle">
-                                    <span>隐藏的项目经历(0)</span>
-                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        <!-- 学术与实践标签页 -->
+                        <div class="ps-tab-content" id="ps-tab-academic">
+                            <div class="form-section">
+                                <div class="form-field-wrapper" style="margin-bottom: 24px;">
+                                    <label class="form-label">
+                                        核心研究方向
+                                        <svg class="help-icon" data-help="research-direction" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </label>
+                                    <textarea class="form-textarea" placeholder="例如：人工智能、机器学习、用户体验设计、可持续设计等。可以描述你的研究兴趣、关注的领域或希望深入探索的方向。"></textarea>
+                                    <div class="help-tooltip" data-help-target="research-direction">
+                                        描述你的核心研究方向或学术兴趣。格式：可以列出具体的研究领域（如：人工智能、机器学习），也可以描述你的研究兴趣和关注点。建议包含 2-3 个相关领域，用逗号或换行分隔。
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section projects-section">
+                                <div class="projects-header">
+                                    <h3 class="projects-title">
+                                        项目经历
+                                        <svg class="help-icon" data-help="project-experience" style="margin-left: 6px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </h3>
+                                    <button class="hidden-projects-toggle">
+                                        <span>隐藏的项目经历(0)</span>
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="help-tooltip" data-help-target="project-experience" style="top: 32px; left: 0;">
+                                        添加你的项目经历。格式：项目名称（必填）、时间 · 角色（例如：2023-09 至 2024-06 · 项目负责人）、项目描述（详细描述你在项目中的工作内容、使用的技术、取得的成果等）。可以添加多个项目经历。
+                                    </div>
+                                </div>
+
+                                <div class="projects-list">
+                                    <div class="project-card">
+                                        <div class="project-header">
+                                            <div class="project-header-left">
+                                                <div class="project-title">
+                                                    <span contenteditable="true" placeholder="项目名称">项目名称</span>
+                                                    <svg class="project-edit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="project-meta" contenteditable="true" placeholder="例如：2023-09 至 2024-06 · 项目负责人">时间 · 角色</div>
+                                                <p class="project-description" contenteditable="true" placeholder="详细描述项目背景、你的工作内容、使用的技术、取得的成果等...">项目描述...</p>
+                                            </div>
+                                        <div class="project-actions">
+                                            <button class="btn-icon" title="隐藏">
+                                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                                                </svg>
+                                            </button>
+                                            <button class="btn-icon" title="删除">
+                                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <div class="project-card">
+                                        <div class="project-header">
+                                            <div class="project-header-left">
+                                                <div class="project-title">
+                                                    <span contenteditable="true" placeholder="项目名称">项目名称</span>
+                                                    <svg class="project-edit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="project-meta" contenteditable="true" placeholder="例如：2023-09 至 2024-06 · 项目负责人">时间 · 角色</div>
+                                                <p class="project-description" contenteditable="true" placeholder="详细描述项目背景、你的工作内容、使用的技术、取得的成果等...">项目描述...</p>
+                                            </div>
+                                        <div class="project-actions">
+                                            <button class="btn-icon" title="隐藏">
+                                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                                                </svg>
+                                            </button>
+                                            <button class="btn-icon" title="删除">
+                                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+
+                                <button class="btn-primary large" style="margin-top: 16px;">+ 添加项目经历</button>
+                            </div>
+
+                            <div class="form-section" style="margin-top: 24px;">
+                                <div class="projects-header">
+                                    <h3 class="projects-title">
+                                        实习或工作经历
+                                        <svg class="help-icon" data-help="internship-experience" style="margin-left: 6px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </h3>
+                                    <button class="hidden-projects-toggle">
+                                        <span>隐藏的实习或工作经历(0)</span>
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="help-tooltip" data-help-target="internship-experience" style="top: 32px; left: 0;">
+                                        添加你的实习或工作经历。格式：公司/组织名称、时间 · 职位（例如：2023-07 至 2023-09 · 产品设计实习生）、工作描述（详细描述你的工作内容、职责、取得的成果等）。
+                                    </div>
+                                </div>
+                                <button class="btn-primary large" style="margin-top: 16px;">+ 添加实习或工作经历</button>
+                            </div>
+
+                            <div class="form-section" style="margin-top: 24px;">
+                                <div class="projects-header">
+                                    <h3 class="projects-title">
+                                        志愿活动/社会实践经历
+                                        <svg class="help-icon" data-help="volunteer-experience" style="margin-left: 6px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </h3>
+                                    <button class="hidden-projects-toggle">
+                                        <span>隐藏的志愿/社会实践经历(0)</span>
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="help-tooltip" data-help-target="volunteer-experience" style="top: 32px; left: 0;">
+                                        添加你的志愿活动或社会实践经历。格式：活动/组织名称、时间 · 角色（例如：2023-03 至 2023-06 · 志愿者）、活动描述（详细描述活动内容、你的参与方式、取得的成果等）。
+                                    </div>
+                                </div>
+                                <button class="btn-primary large" style="margin-top: 16px;">+ 添加志愿/社会实践经历</button>
+                            </div>
+                        </div>
+
+                        <!-- 动机与规划标签页 -->
+                        <div class="ps-tab-content" id="ps-tab-motivation">
+                            <div class="form-section">
+                                <div class="form-field-wrapper" style="margin-bottom: 32px;">
+                                    <label class="form-label">
+                                        一句话阐述申请动机
+                                        <svg class="help-icon" data-help="one-sentence-motivation" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </label>
+                                    <input type="text" class="form-input" placeholder="请用一句话作为独特引子阐述您的申请动机">
+                                    <div class="help-tooltip" data-help-target="one-sentence-motivation">
+                                        用一句话概括你的申请动机，作为个人陈述的开头引子。这句话应该能够吸引读者的注意力，简洁有力地表达你的核心动机。例如："从小对设计的热情驱使我追求产品设计专业，希望通过创新解决实际问题。"
+                                    </div>
+                                </div>
+
+                                <div class="form-field-wrapper" style="margin-bottom: 32px;">
+                                    <label class="form-label">
+                                        详细的申请动机
+                                        <svg class="help-icon" data-help="detailed-motivation" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </label>
+                                    <div class="guide-card-toggle collapsed">
+                                        <span class="guide-card-toggle-title">引导问题与示例</span>
+                                        <svg class="guide-card-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="guide-card-content" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 6px; padding: 20px;">
+                                        <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+                                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">引导问题：</div>
+                                            <div style="padding-left: 8px;">
+                                                <div style="margin-bottom: 8px;">• 是什么让你第一次意识到这个领域的重要性？（请描述具体的事件、经历或观察）</div>
+                                                <div style="margin-bottom: 8px;">• 你希望在这个领域改变或解决什么问题？（请具体说明问题是什么，为什么重要）</div>
+                                                <div>• 哪个时刻或经历让你决定深入探索这个领域？（请描述具体的时间、地点、人物或事件）</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                                            <div class="example-toggle collapsed">
+                                                <span class="example-toggle-title">示例：</span>
+                                                <svg class="example-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="example-content" style="padding-left: 8px; font-style: italic;">
+                                                当我意识到「这个领域」不仅仅是理论知识，而是能够真正影响和改善人们生活的重要工具时，我决定将其作为我职业生涯的核心方向。具体来说，通过观察「具体的现实问题，如：城市交通拥堵、教育资源不均等」，我看到了这个领域如何能够为社会带来积极的变化。特别是在「具体的时间/地点/事件，如：2023年参与某项目时」的经历，让我深刻认识到「具体的价值或意义」，这激发了我深入学习和探索的热情。
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-textarea" placeholder="在这里填写详尽的申请动机，可以参考上方的引导问题和示例"></textarea>
+                                    <div class="help-tooltip" data-help-target="detailed-motivation">
+                                        详细描述你的申请动机。可以包括：为什么选择这个专业、为什么选择这所院校、你的职业规划、你希望通过这个项目获得什么等。建议 200-500 字。
+                                    </div>
+                                </div>
+
+                                <div class="form-field-wrapper">
+                                    <label class="form-label">
+                                        未来的职业或学术规划
+                                        <svg class="help-icon" data-help="future-plan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </label>
+                                    <div class="guide-card-toggle collapsed">
+                                        <span class="guide-card-toggle-title">引导问题与示例</span>
+                                        <svg class="guide-card-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="guide-card-content" style="background: var(--bg-secondary); border: 1px solid var(--border-default); border-radius: 6px; padding: 20px;">
+                                        <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+                                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">引导问题：</div>
+                                            <div style="padding-left: 8px;">
+                                                <div style="margin-bottom: 8px;">• 你希望通过学习解决哪些现实世界的问题？（请具体说明问题、影响的人群、为什么重要）</div>
+                                                <div style="margin-bottom: 8px;">• 你希望在未来扮演什么角色？在哪个领域或行业？（请具体说明职位、公司类型、工作内容）</div>
+                                                <div>• 你希望如何运用所学知识为社会或社区做出贡献？（请具体说明贡献方式、目标群体、预期影响）</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                                            <div class="example-toggle collapsed">
+                                                <span class="example-toggle-title">示例：</span>
+                                                <svg class="example-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="example-content" style="padding-left: 8px; font-style: italic;">
+                                                我希望通过深入学习，探索理论与实践的结合，为解决「具体问题，如：农村地区的医疗资源短缺」贡献自己的力量。未来，我希望能够在「具体领域/行业，如：医疗健康科技」中发挥专业优势，担任「具体职位，如：产品经理/研究员」的角色，运用所学知识推动「具体创新方向，如：远程医疗技术的普及」。我计划在毕业后投身于「具体机构类型，如：医疗科技公司/研究机构」，通过「具体工作内容，如：开发医疗信息化系统」来改善「具体人群，如：偏远地区患者」的生活质量，为构建更美好的社会贡献自己的力量。
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-textarea" placeholder="在这里填写未来的职业或学术规划，可以参考上方的引导问题和示例"></textarea>
+                                    <div class="help-tooltip" data-help-target="future-plan">
+                                        描述你的未来规划。可以包括：短期目标（1-2年）、长期目标（5-10年）、职业发展方向、你希望如何运用所学知识等。建议 200-500 字。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 补充信息标签页 -->
+                        <div class="ps-tab-content" id="ps-tab-supplementary">
+                            <div class="form-section">
+                                <h3 class="section-title-small" style="margin-bottom: 16px;">补充材料(可选)</h3>
+                                
+                                <div class="form-field-wrapper" style="margin-bottom: 24px;">
+                                    <textarea class="form-textarea" placeholder="在这里填写想强调的个人故事或经历" style="min-height: 120px;"></textarea>
+                                </div>
+
+                                <div class="file-upload-area" style="border: 2px dashed var(--border-default); border-radius: 6px; padding: 40px; text-align: center; background: var(--bg-tertiary); cursor: pointer; transition: all 0.2s ease;">
+                                    <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--text-tertiary); margin: 0 auto 16px; display: block;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
                                     </svg>
-                                </button>
-                            </div>
-
-                            <div class="projects-list">
-                                <div class="project-card">
-                                    <div class="project-header">
-                                        <div class="project-header-left">
-                                            <div class="project-title">
-                                                <span contenteditable="true">项目名称</span>
-                                                <svg class="project-edit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                                </svg>
-                                            </div>
-                                            <div class="project-meta" contenteditable="true">时间 · 角色</div>
-                                            <p class="project-description" contenteditable="true">项目描述...</p>
-                                        </div>
-                                        <div class="project-actions">
-                                            <button class="btn-icon" title="隐藏">
-                                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
-                                                </svg>
-                                            </button>
-                                            <button class="btn-icon" title="删除">
-                                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="project-card">
-                                    <div class="project-header">
-                                        <div class="project-header-left">
-                                            <div class="project-title">
-                                                <span contenteditable="true">项目名称</span>
-                                                <svg class="project-edit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                                </svg>
-                                            </div>
-                                            <div class="project-meta" contenteditable="true">时间 · 角色</div>
-                                            <p class="project-description" contenteditable="true">项目描述...</p>
-                                        </div>
-                                        <div class="project-actions">
-                                            <button class="btn-icon" title="隐藏">
-                                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
-                                                </svg>
-                                            </button>
-                                            <button class="btn-icon" title="删除">
-                                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <div style="font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 8px;">上传补充材料</div>
+                                    <div style="font-size: 13px; color: var(--text-secondary);">点击这里或拖拽文件到此区域上传补充材料</div>
                                 </div>
                             </div>
+                        </div>
 
+                        <div style="margin-top: 24px;">
                             <button class="btn-primary large">生成 PS 草稿</button>
                         </div>
                     </div>
@@ -1887,10 +2496,72 @@
                         <div class="preview-toolbar">
                             <button class="toolbar-btn">复制</button>
                             <button class="toolbar-btn">导出</button>
-                            <button class="toolbar-btn">版本</button>
+                            <button class="toolbar-btn" id="versions-btn">版本</button>
+                            <button class="toolbar-btn" id="save-version-btn">保存为新版本</button>
                         </div>
 
-                        <div class="preview-content">
+                        <!-- 版本列表 -->
+                        <div class="versions-panel" id="versions-panel" style="display: none; opacity: 0;">
+                            <div class="versions-header">
+                                <h3 class="versions-title">版本管理</h3>
+                                <button class="versions-close-btn" id="versions-close-btn">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="versions-list" id="versions-list">
+                                <div class="version-item active" data-version="1">
+                                    <div class="version-item-header">
+                                        <div class="version-item-left">
+                                            <span class="version-name">版本 1</span>
+                                            <span class="version-badge primary">主文书</span>
+                                        </div>
+                                        <div class="version-item-actions">
+                                            <button class="version-action-btn" title="设为主文书">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="version-action-btn" title="删除">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="version-item-meta">
+                                        <span class="version-date">2025-11-07 20:30</span>
+                                        <span class="version-word-count">约 500 字</span>
+                                    </div>
+                                </div>
+                                <div class="version-item" data-version="2">
+                                    <div class="version-item-header">
+                                        <div class="version-item-left">
+                                            <span class="version-name">版本 2</span>
+                                        </div>
+                                        <div class="version-item-actions">
+                                            <button class="version-action-btn" title="设为主文书">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                                </svg>
+                                            </button>
+                                            <button class="version-action-btn" title="删除">
+                                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="version-item-meta">
+                                        <span class="version-date">2025-11-07 19:15</span>
+                                        <span class="version-word-count">约 480 字</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preview-content" id="preview-content">
                             填写你的信息，然后点击"生成 PS 草稿"按钮开始
                         </div>
                     </div>
@@ -2088,6 +2759,394 @@
         if (toggleFormBtn && psLayout) {
             toggleFormBtn.addEventListener('click', () => {
                 psLayout.classList.toggle('collapsed');
+            });
+        }
+
+        // 版本管理功能
+        const versionsBtn = document.getElementById('versions-btn');
+        const versionsPanel = document.getElementById('versions-panel');
+        const versionsCloseBtn = document.getElementById('versions-close-btn');
+        const saveVersionBtn = document.getElementById('save-version-btn');
+        const versionsList = document.getElementById('versions-list');
+        const previewContent = document.getElementById('preview-content');
+
+        // 版本数据（示例）
+        let versions = [
+            { id: 1, name: '版本 1', isPrimary: true, date: '2025-11-07 20:30', wordCount: 500, content: '这是版本 1 的内容...\n\n这是第一段内容，展示了个人背景和学术成就。\n\n这是第二段内容，描述了项目经历和研究成果。' },
+            { id: 2, name: '版本 2', isPrimary: false, date: '2025-11-07 19:15', wordCount: 480, content: '这是版本 2 的内容...\n\n这是第一段内容，展示了个人背景和学术成就。\n\n这是第二段内容，描述了项目经历和研究成果。' }
+        ];
+        let currentVersionId = 1;
+
+        // 显示提示消息
+        function showToast(message) {
+            // 移除已存在的提示
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // 创建新提示
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            // 显示动画
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // 显示/隐藏版本面板
+        if (versionsBtn && versionsPanel) {
+            versionsBtn.addEventListener('click', (e) => {
+                // 添加点击反馈
+                e.currentTarget.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    e.currentTarget.style.transform = '';
+                }, 150);
+                
+                const isVisible = versionsPanel.classList.contains('show') || versionsPanel.style.display === 'block';
+                if (isVisible) {
+                    // 隐藏面板
+                    versionsPanel.classList.remove('show');
+                    versionsBtn.classList.remove('active');
+                    setTimeout(() => {
+                        versionsPanel.style.display = 'none';
+                    }, 300);
+                } else {
+                    // 显示面板
+                    versionsPanel.style.display = 'block';
+                    versionsBtn.classList.add('active');
+                    setTimeout(() => {
+                        versionsPanel.classList.add('show');
+                    }, 10);
+                }
+            });
+        }
+
+        // 关闭版本面板
+        if (versionsCloseBtn && versionsPanel) {
+            versionsCloseBtn.addEventListener('click', () => {
+                versionsPanel.classList.remove('show');
+                if (versionsBtn) {
+                    versionsBtn.classList.remove('active');
+                }
+                setTimeout(() => {
+                    versionsPanel.style.display = 'none';
+                }, 300);
+            });
+        }
+
+        // 保存为新版本
+        if (saveVersionBtn) {
+            saveVersionBtn.addEventListener('click', () => {
+                const content = previewContent.textContent.trim();
+                if (!content || content === '填写你的信息，然后点击"生成 PS 草稿"按钮开始') {
+                    showToast('请先生成 PS 草稿');
+                    return;
+                }
+
+                const newVersion = {
+                    id: versions.length + 1,
+                    name: `版本 ${versions.length + 1}`,
+                    isPrimary: false,
+                    date: new Date().toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+                    wordCount: content.length,
+                    content: content
+                };
+                versions.push(newVersion);
+                currentVersionId = newVersion.id;
+                renderVersions();
+                showToast('已保存为新版本！');
+                
+                // 自动打开版本面板
+                if (versionsPanel) {
+                    versionsPanel.style.display = 'block';
+                    setTimeout(() => {
+                        versionsPanel.classList.add('show');
+                    }, 10);
+                }
+            });
+        }
+
+        // 渲染版本列表
+        function renderVersions() {
+            if (!versionsList) return;
+            
+            versionsList.innerHTML = versions.map(version => {
+                const isActive = version.id === currentVersionId;
+                const badge = version.isPrimary ? '<span class="version-badge primary">主文书</span>' : '';
+                return `
+                    <div class="version-item ${isActive ? 'active' : ''}" data-version="${version.id}">
+                        <div class="version-item-header">
+                            <div class="version-item-left">
+                                <span class="version-name">${version.name}</span>
+                                ${badge}
+                            </div>
+                            <div class="version-item-actions">
+                                <button class="version-action-btn set-primary-btn" title="设为主文书" data-version="${version.id}">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                    </svg>
+                                </button>
+                                <button class="version-action-btn delete-version-btn" title="删除" data-version="${version.id}">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="version-item-meta">
+                            <span class="version-date">${version.date}</span>
+                            <span class="version-word-count">约 ${version.wordCount} 字</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // 绑定版本切换事件
+            const versionItems = versionsList.querySelectorAll('.version-item');
+            versionItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (e.target.closest('.version-action-btn')) return;
+                    const versionId = parseInt(item.getAttribute('data-version'));
+                    switchVersion(versionId);
+                });
+            });
+
+            // 绑定设为主文书事件
+            const setPrimaryBtns = versionsList.querySelectorAll('.set-primary-btn');
+            setPrimaryBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const versionId = parseInt(btn.getAttribute('data-version'));
+                    setPrimaryVersion(versionId);
+                });
+            });
+
+            // 绑定删除版本事件
+            const deleteBtns = versionsList.querySelectorAll('.delete-version-btn');
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const versionId = parseInt(btn.getAttribute('data-version'));
+                    if (confirm('确定要删除这个版本吗？')) {
+                        deleteVersion(versionId);
+                    }
+                });
+            });
+        }
+
+        // 切换版本
+        function switchVersion(versionId) {
+            const version = versions.find(v => v.id === versionId);
+            if (!version) return;
+            
+            if (currentVersionId === versionId) return;
+            
+            // 添加切换动画
+            previewContent.classList.add('fading');
+            
+            // 标记正在切换的版本项
+            const currentItem = versionsList.querySelector(`[data-version="${currentVersionId}"]`);
+            const targetItem = versionsList.querySelector(`[data-version="${versionId}"]`);
+            if (currentItem) currentItem.classList.add('switching');
+            if (targetItem) targetItem.classList.add('switching');
+            
+            setTimeout(() => {
+                currentVersionId = versionId;
+                previewContent.textContent = version.content;
+                renderVersions();
+                
+                // 移除淡出效果
+                previewContent.classList.remove('fading');
+                
+                // 滚动到当前版本
+                const activeItem = versionsList.querySelector(`[data-version="${versionId}"]`);
+                if (activeItem) {
+                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 300);
+        }
+
+        // 设为主文书
+        function setPrimaryVersion(versionId) {
+            const version = versions.find(v => v.id === versionId);
+            if (!version) return;
+            
+            if (version.isPrimary) {
+                showToast('该版本已经是主文书');
+                return;
+            }
+            
+            versions.forEach(v => {
+                v.isPrimary = v.id === versionId;
+            });
+            renderVersions();
+            showToast('已设为主文书');
+        }
+
+        // 删除版本
+        function deleteVersion(versionId) {
+            if (versions.length <= 1) {
+                showToast('至少需要保留一个版本！');
+                return;
+            }
+            
+            const version = versions.find(v => v.id === versionId);
+            if (version && version.isPrimary) {
+                showToast('无法删除主文书版本，请先设置其他版本为主文书');
+                return;
+            }
+            
+            // 添加删除动画
+            const item = versionsList.querySelector(`[data-version="${versionId}"]`);
+            if (item) {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    versions = versions.filter(v => v.id !== versionId);
+                    if (currentVersionId === versionId) {
+                        currentVersionId = versions[0].id;
+                        switchVersion(currentVersionId);
+                    }
+                    renderVersions();
+                    showToast('已删除版本');
+                }, 300);
+            }
+        }
+
+        // 初始化版本列表
+        renderVersions();
+
+        // PS页面标签页切换功能
+        const psTabs = document.querySelectorAll('[data-ps-tab]');
+        const psTabContents = document.querySelectorAll('.ps-tab-content');
+
+        psTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-ps-tab');
+
+                // 更新标签状态
+                psTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // 切换标签内容
+                psTabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById(`ps-tab-${targetTab}`).classList.add('active');
+            });
+        });
+
+        // 问号帮助图标功能
+        const helpIcons = document.querySelectorAll('.help-icon');
+        let currentTooltip = null;
+
+        helpIcons.forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const helpId = icon.getAttribute('data-help');
+                const tooltip = document.querySelector(`[data-help-target="${helpId}"]`);
+                
+                if (!tooltip) return;
+
+                // 如果点击的是当前已显示的提示，则关闭它
+                if (currentTooltip === tooltip && tooltip.classList.contains('show')) {
+                    tooltip.classList.remove('show');
+                    currentTooltip = null;
+                    return;
+                }
+
+                // 关闭其他已显示的提示
+                document.querySelectorAll('.help-tooltip.show').forEach(t => {
+                    t.classList.remove('show');
+                });
+
+                // 显示当前提示
+                tooltip.classList.add('show');
+                currentTooltip = tooltip;
+
+                // 计算提示位置
+                const iconRect = icon.getBoundingClientRect();
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const wrapper = icon.closest('.form-field-wrapper') || icon.closest('.projects-header');
+                
+                if (wrapper) {
+                    const wrapperRect = wrapper.getBoundingClientRect();
+                    tooltip.style.left = '0';
+                    tooltip.style.top = iconRect.bottom - wrapperRect.top + 8 + 'px';
+                }
+            });
+        });
+
+        // 点击其他地方关闭提示
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.help-icon') && !e.target.closest('.help-tooltip')) {
+                document.querySelectorAll('.help-tooltip.show').forEach(tooltip => {
+                    tooltip.classList.remove('show');
+                });
+                currentTooltip = null;
+            }
+        });
+
+        // 引导卡片折叠功能
+        const guideCardToggles = document.querySelectorAll('.guide-card-toggle');
+        guideCardToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggle.classList.toggle('collapsed');
+            });
+        });
+
+        // 示例折叠功能
+        const exampleToggles = document.querySelectorAll('.example-toggle');
+        exampleToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggle.classList.toggle('collapsed');
+            });
+        });
+
+        // 基础信息标题点击事件 - 跳转到我的故事页面的个人信息卡片
+        const basicInfoTitle = document.getElementById('basic-info-title');
+        const profileCard = document.getElementById('profile-card');
+
+        if (basicInfoTitle) {
+            basicInfoTitle.addEventListener('click', () => {
+                // 切换到"我的故事"页面
+                const storyNavItem = document.querySelector('.nav-item[data-page="story"]');
+                const storyPage = document.getElementById('page-story');
+                
+                if (storyNavItem && storyPage) {
+                    // 更新导航状态
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    storyNavItem.classList.add('active');
+                    
+                    // 切换页面
+                    pages.forEach(page => page.classList.remove('active'));
+                    storyPage.classList.add('active');
+                    
+                    // 滚动到个人信息卡片
+                    setTimeout(() => {
+                        if (profileCard) {
+                            profileCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            // 添加高亮效果
+                            profileCard.style.transition = 'box-shadow 0.3s ease';
+                            profileCard.style.boxShadow = '0 0 0 3px rgba(55, 53, 47, 0.1)';
+                            setTimeout(() => {
+                                profileCard.style.boxShadow = '';
+                            }, 2000);
+                        }
+                    }, 100);
+                }
             });
         }
     </script>

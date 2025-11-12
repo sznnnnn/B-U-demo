@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动机与规划 - 引导指南 | BüddyUp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --text-primary: #37352F;
+            --text-secondary: #787774;
+            --text-tertiary: #9B9A97;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F7F6F3;
+            --bg-tertiary: #FAFAF9;
+            --border-default: #E8E7E5;
+            --border-hover: #DDDBD8;
+            --accent-blue: #2383E2;
+        }
+
+        body {
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .page-header {
+            margin-bottom: 48px;
+        }
+
+        .page-title {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .guide-section {
+            margin-bottom: 48px;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .step-question {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            padding-left: 44px;
+        }
+
+        .content-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .content-block-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+
+        .guiding-questions {
+            margin-bottom: 24px;
+        }
+
+        .question-item {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .question-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--text-secondary);
+        }
+
+        .example-box {
+            background: var(--bg-primary);
+            border-left: 3px solid var(--accent-blue);
+            padding: 16px 20px;
+            border-radius: 4px;
+        }
+
+        .example-text {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border-default);
+            margin: 48px 0;
+        }
+
+        .callout {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-blue);
+            padding: 16px 20px;
+            border-radius: 4px;
+            margin-top: 32px;
+        }
+
+        .callout-text {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .example-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: 12px;
+        }
+
+        .example-toggle-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .example-toggle-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+
+        .example-toggle.collapsed .example-toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .example-content {
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .example-toggle.collapsed + .example-content {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+        }
+
+        .guide-card-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            margin-bottom: 16px;
+            transition: background 0.2s ease;
+        }
+
+        .guide-card-toggle:hover {
+            background: var(--border-default);
+        }
+
+        .guide-card-toggle-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .guide-card-toggle-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+
+        .guide-card-toggle.collapsed .guide-card-toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .guide-card-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease, margin-bottom 0.3s ease;
+            opacity: 1;
+            margin-bottom: 20px;
+        }
+
+        .guide-card-toggle.collapsed + .guide-card-content {
+            max-height: 0;
+            opacity: 0;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 24px;
+            }
+
+            .page-title {
+                font-size: 32px;
+            }
+
+            .step-title {
+                font-size: 20px;
+            }
+
+            .step-question {
+                font-size: 16px;
+                padding-left: 0;
+                margin-top: 12px;
+            }
+
+            .content-block {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">动机与规划 - 引导指南</h1>
+            <p class="page-subtitle">通过5个步骤，帮助你深入思考并撰写个人陈述的核心内容</p>
+        </div>
+
+        <!-- Step 1: 起点 -->
+        <div class="guide-section">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <h2 class="step-title">起点</h2>
+            </div>
+            <div class="step-question">是什么让你对这个领域产生了兴趣？</div>
+            
+            <div class="guide-card-toggle collapsed">
+                <span class="guide-card-toggle-title">引导问题与示例</span>
+                <svg class="guide-card-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="guide-card-content">
+                <div class="content-block">
+                    <div class="content-block-title">
+                        <span>引导问题</span>
+                    </div>
+                    <div class="guiding-questions">
+                        <div class="question-item">是什么让你第一次意识到这个领域的重要性？（请描述具体的事件、经历或观察）</div>
+                        <div class="question-item">你希望在这个领域改变或解决什么问题？（请具体说明问题是什么，为什么重要）</div>
+                        <div class="question-item">哪个时刻或经历让你决定深入探索这个领域？（请描述具体的时间、地点、人物或事件）</div>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <div class="example-toggle collapsed">
+                        <span class="example-toggle-title">示例</span>
+                        <svg class="example-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="example-content">
+                        <div class="example-box">
+                            <div class="example-text">
+                                当我意识到「这个领域」不仅仅是理论知识，而是能够真正影响和改善人们生活的重要工具时，我决定将其作为我职业生涯的核心方向。具体来说，通过观察「具体的现实问题，如：城市交通拥堵、教育资源不均等」，我看到了这个领域如何能够为社会带来积极的变化。特别是在「具体的时间/地点/事件，如：2023年参与某项目时」的经历，让我深刻认识到「具体的价值或意义」，这激发了我深入学习和探索的热情。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Step 2: 经验 -->
+        <div class="guide-section">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <h2 class="step-title">经验</h2>
+            </div>
+            <div class="step-question">你是如何接近这个领域的？</div>
+            
+            <div class="guide-card-toggle collapsed">
+                <span class="guide-card-toggle-title">引导问题与示例</span>
+                <svg class="guide-card-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="guide-card-content">
+                <div class="content-block">
+                    <div class="content-block-title">
+                        <span>引导问题</span>
+                    </div>
+                    <div class="guiding-questions">
+                        <div class="question-item">你通过哪些实际项目或经历来探索这个领域？（请具体说明项目名称、时间、你的角色、项目内容）</div>
+                        <div class="question-item">你如何解决问题？你使用了什么方法？（请具体说明遇到的问题、解决步骤、使用的工具或方法）</div>
+                        <div class="question-item">你从失败中学到了什么？这些经历如何塑造了你？（请具体说明失败的经历、学到的教训、如何改变你的思维方式）</div>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <div class="example-toggle collapsed">
+                        <span class="example-toggle-title">示例</span>
+                        <svg class="example-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="example-content">
+                        <div class="example-box">
+                            <div class="example-text">
+                                在大学期间，我作为「具体角色，如：项目负责人/核心开发者」，带领团队完成了「具体项目名称，如：智能推荐系统」项目。这个项目让我深刻理解了理论与实践结合的重要性。我们遇到了「具体挑战，如：数据稀疏性问题、算法性能优化」等挑战，但通过「具体方法，如：采用协同过滤算法、进行A/B测试」，最终找到了解决方案。这次经历让我认识到，在这个领域取得成功需要扎实的理论基础、实践能力和解决复杂问题的思维。特别是「具体学到的技能或思维，如：如何平衡用户体验和系统性能」这一点，对我后续的学习和工作产生了重要影响。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Step 3: 思考 -->
+        <div class="guide-section">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <h2 class="step-title">思考</h2>
+            </div>
+            <div class="step-question">你从这些经历中学到了什么？</div>
+            
+            <div class="guide-card-toggle collapsed">
+                <span class="guide-card-toggle-title">引导问题与示例</span>
+                <svg class="guide-card-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="guide-card-content">
+                <div class="content-block">
+                    <div class="content-block-title">
+                        <span>引导问题</span>
+                    </div>
+                    <div class="guiding-questions">
+                        <div class="question-item">这些经历如何塑造了你的思维过程？（请具体说明思维方式的变化、新的思考角度）</div>
+                        <div class="question-item">它们如何改变了你对该领域或相关行业的理解？（请具体说明理解的变化、新的认识）</div>
+                        <div class="question-item">你发现了哪些需要改进或改变的地方？（请具体说明问题所在、为什么需要改变、可能的改进方向）</div>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <div class="example-toggle collapsed">
+                        <span class="example-toggle-title">示例</span>
+                        <svg class="example-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="example-content">
+                        <div class="example-box">
+                            <div class="example-text">
+                                通过「具体项目数量或类型，如：3个相关项目」的实践，我发现这个领域不仅仅是单一技能的运用，更重要的是综合运用多种知识和能力来解决复杂问题。在实践中，我遇到了「具体挑战，如：需要同时掌握编程和数据分析技能」的挑战，这让我意识到深入学习和系统化思维的重要性。我开始关注「具体研究方向，如：如何通过机器学习优化推荐算法」，这成为了我未来学习和研究的重点方向。特别是在「具体经历，如：与不同专业背景的团队成员协作」的过程中，我学会了「具体技能或思维，如：如何将技术方案转化为商业价值」。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Step 4: 匹配 -->
+        <div class="guide-section">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <h2 class="step-title">匹配</h2>
+            </div>
+            <div class="step-question">为什么选择这所学校/专业？</div>
+            
+            <div class="guide-card-toggle collapsed">
+                <span class="guide-card-toggle-title">引导问题与示例</span>
+                <svg class="guide-card-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="guide-card-content">
+                <div class="content-block">
+                    <div class="content-block-title">
+                        <span>引导问题</span>
+                    </div>
+                    <div class="guiding-questions">
+                        <div class="question-item">你如何认同这个项目的理念/课程？（请具体说明哪些理念、哪些课程吸引你，为什么）</div>
+                        <div class="question-item">哪些导师/实验室激励了你？（请具体说明导师姓名、研究方向、实验室名称、为什么吸引你）</div>
+                        <div class="question-item">你的经历如何与项目方向匹配？（请具体说明你的哪些经历、技能、兴趣与项目相关）</div>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <div class="example-toggle collapsed">
+                        <span class="example-toggle-title">示例</span>
+                        <svg class="example-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="example-content">
+                        <div class="example-box">
+                            <div class="example-text">
+                                「学校名称」的「具体教育理念，如：强调理论与实践结合、注重创新思维培养」深深吸引了我。这与我在「具体领域，如：人工智能/金融科技」的探索和兴趣高度契合。特别是该校的「具体课程名称，如：机器学习前沿、数据挖掘实践」和「具体研究方向，如：自然语言处理实验室」的研究方向，为我提供了深入学习和实践应用的理想平台。我希望能够在这样的学术环境中，进一步深化对「具体专业领域」的理解，并探索如何将所学知识应用于解决「具体实际问题，如：医疗诊断辅助、金融风险预测」。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Step 5: 展望 -->
+        <div class="guide-section">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <h2 class="step-title">展望</h2>
+            </div>
+            <div class="step-question">你希望通过学习实现什么？</div>
+            
+            <div class="guide-card-toggle collapsed">
+                <span class="guide-card-toggle-title">引导问题与示例</span>
+                <svg class="guide-card-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div class="guide-card-content">
+                <div class="content-block">
+                    <div class="content-block-title">
+                        <span>引导问题</span>
+                    </div>
+                    <div class="guiding-questions">
+                        <div class="question-item">你希望通过学习解决哪些现实世界的问题？（请具体说明问题、影响的人群、为什么重要）</div>
+                        <div class="question-item">你希望在未来扮演什么角色？在哪个领域或行业？（请具体说明职位、公司类型、工作内容）</div>
+                        <div class="question-item">你希望如何运用所学知识为社会/社区做出贡献？（请具体说明贡献方式、目标群体、预期影响）</div>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <div class="example-toggle collapsed">
+                        <span class="example-toggle-title">示例</span>
+                        <svg class="example-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="example-content">
+                        <div class="example-box">
+                            <div class="example-text">
+                                我希望通过深入学习，探索理论与实践的结合，为解决「具体问题，如：农村地区的医疗资源短缺/教育资源不均」贡献自己的力量。未来，我希望能够在「具体领域/行业，如：医疗健康科技/教育科技」中发挥专业优势，担任「具体职位，如：产品经理/研究员/工程师」的角色，运用所学知识推动「具体创新方向，如：远程医疗技术的普及/个性化学习系统」。我计划在毕业后投身于「具体机构类型，如：医疗科技公司/研究机构/非营利组织」，通过「具体工作内容，如：开发医疗信息化系统/设计教育产品」来改善「具体人群，如：偏远地区患者/农村学生」的生活质量，为构建更美好的社会贡献自己的力量。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div class="callout-text">
+                <strong>提示：</strong> 这5个步骤帮助你构建一个完整、有说服力的个人陈述。每个步骤都是相互关联的，从起点到展望，形成一个清晰的叙事弧线。在填写"动机与规划"时，可以参考这些引导问题，深入思考并组织你的答案。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 引导卡片折叠功能
+        const guideCardToggles = document.querySelectorAll('.guide-card-toggle');
+        guideCardToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggle.classList.toggle('collapsed');
+            });
+        });
+
+        // 示例折叠功能
+        const exampleToggles = document.querySelectorAll('.example-toggle');
+        exampleToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggle.classList.toggle('collapsed');
+            });
+        });
+    </script>
+</body>
+</html>
+
